@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/* =====================
+   THEME COLORS
+===================== */
+:root {
+  --primary: 55 65 81; /* Dark Slate */
+  --secondary: 217 119 6; /* Orange */
+  --background: 248 245 238; /* Cream */
+  --text: 107 114 128; /* Gray text */
+  --border: 229 231 235;
+  --third: 62 81 106;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+/* =====================
+   BASE STYLES
+===================== */
+@layer base {
+  body {
+    font-family: "Jost", sans-serif;
+
+    color: rgb(var(--primary));
+  }
+}
+
+@layer utilities {
+  .bg-primary {
+    background-color: rgb(var(--primary));
+  }
+
+  .cream-bg {
+    background-color: rgb(var(--background));
+  }
+ 
+  .text-primary {
+    color: rgb(var(--primary));
+  }
+
+  .hover-primary:hover {
+    color: rgb(var(--primary));
+  }
+  .hover-secondary:hover {
+    color: rgb(var(--secondary));
+  }
+
+
+  .bg-secondary {
+    background-color: rgb(var(--secondary));
+  }
+
+  .text-secondary {
+    color: rgb(var(--secondary));
+  }
+
+  .border-theme {
+    border-color: rgb(var(--border));
+  }
+  .third-color {
+    color: rgb(var(--third));
+  }
+  .third-bg{
+  background-color:rgb(var(--third));
+  }
+ 
+}
