@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FiSearch, FiShoppingCart, FiUser, FiMenu, FiX } from "react-icons/fi";
+import { useSettings } from "../../context/SettingsContext";
+
+const LOGO_URL = "https://cuteweb.in/sandbox/budget/admin/uploads/settings/";
 
 export default function Navbar() {
+  const {settings, loading} = useSettings();
   const [open, setOpen] = useState(false);
+  if(loading || !settings) return null;
 
   const links = [
     { name: "Home", path: "/" },
@@ -20,7 +25,13 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* LOGO */}
           <NavLink to="/" className="text-2xl font-bold text-primary">
-            Budjet Furniture
+            {
+              <img
+              src={`${LOGO_URL}${settings.logo}`}
+              alt={settings.name}
+              className="h-10"
+              />
+            }
           </NavLink>
 
           {/* DESKTOP MENU */}
