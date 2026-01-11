@@ -19,7 +19,7 @@ import ContactItem from "./ContactItem";
     // Normalize phone number for tel
     const phone = settings?.mobile?.replace(/\s+/g, "");
     return (
-      <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-gray-200 text-sm">
+      <div className="bg-white text-gray-800 text-xs sm:text-sm border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-10">
   
@@ -75,8 +75,8 @@ import ContactItem from "./ContactItem";
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="w-7 h-7 flex items-center justify-center border border-gray-600 rounded-full
-                   hover:bg-primary hover:border-primary transition"
+        className="w-7 h-7 flex items-center justify-center border border-gray-300 rounded-full
+                   text-gray-600 hover:text-white hover:bg-primary hover:border-primary transition-all duration-300"
       >
         {icon}
       </a>

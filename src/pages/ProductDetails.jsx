@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useSearchParams } from "react-router-dom";
 import { getProducts, getProductsDetails } from "../api/productApi";
 import Loading from "../components/common/Loading";
+import PageLayout from "../components/common/PageLayout";
+import { getImageUrl } from "../utils/getImageUrl";
 
 export default function ProductDetails() {
   const { slug } = useParams();
@@ -30,7 +32,7 @@ export default function ProductDetails() {
             detail = detailRes.data;
           }
 
-          console.log("Product detail from ID:", detail);
+          // console.log("Product detail from ID:", detail);
           setProduct(detail);
           setLoading(false);
           return;
@@ -49,7 +51,7 @@ export default function ProductDetails() {
           products = [];
         }
 
-        console.log("Products fetched:", products.length);
+        // console.log("Products fetched:", products.length);
 
         // Find product by slug (case-insensitive)
         const foundProduct = products.find(
@@ -63,7 +65,7 @@ export default function ProductDetails() {
           return;
         }
 
-        console.log("Found product by slug:", foundProduct);
+        // console.log("Found product by slug:", foundProduct);
 
         // Get product details by ID
         const productId = foundProduct.id || foundProduct.product_id;
@@ -79,7 +81,7 @@ export default function ProductDetails() {
           detail = detailRes.data;
         }
 
-        console.log("Product detail:", detail);
+        // console.log("Product detail:", detail);
         setProduct(detail);
       } catch (err) {
         console.error("Product Details API Error:", err);
@@ -98,8 +100,8 @@ export default function ProductDetails() {
   if (!product) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Product not found</h2>
-        <p className="text-gray-600 mb-6">The product you're looking for doesn't exist.</p>
+        <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-4">Product not found</h2>
+        <p className="text-base sm:text-lg text-gray-600 mb-6">The product you're looking for doesn't exist.</p>
         <Link
           to="/products"
           className="inline-block px-6 py-2 bg-primary text-white rounded-full hover:bg-primary/90 transition"
@@ -111,13 +113,13 @@ export default function ProductDetails() {
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-16">
+    <PageLayout className="py-16">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
 
         {/* Image */}
         <div className="bg-gray-50 p-6">
           <img
-            src={`${product.slider}`}
+          src={getImageUrl(product.slider ,"serviceslider")}
             alt={product.title}
             className="w-full object-cover"
           />
@@ -125,23 +127,21 @@ export default function ProductDetails() {
 
         {/* Content */}
         <div>
-          <p className="text-sm text-gray-500 mb-2">
-            {product.category}
-          </p>
+          
 
-          <h1 className="text-3xl font-semibold text-primary mb-6">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-primary mb-6">
             {product.title}
           </h1>
 
-          <p className="text-gray-700 leading-relaxed mb-8">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-700 leading-relaxed mb-8">
             {product.meta_description || "No description available for this product."}
           </p>
           {product.features?.length > 0 && (
             <div>
-            <h4 className="font-semibold mb-3">
+            <h4 className="font-semibold mb-3 text-base sm:text-lg">
               Product Highlights
             </h4>
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
+            <ul className="list-disc list-inside space-y-2 text-base sm:text-lg text-gray-700">
               {product.features.map((feature, i) => (
                 <li key={i}>{feature}</li>
               ))}
@@ -158,6 +158,6 @@ export default function ProductDetails() {
           </Link>
         </div>
       </div>
-    </section>
+    </PageLayout>
   );
 }

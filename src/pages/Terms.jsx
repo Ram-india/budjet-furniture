@@ -1,33 +1,42 @@
-// src/pages/TermsPage.jsx
-import termsData from "../data/termsData";
-import TOC from "../components/common/TOC";
+import { useEffect, useState } from "react";
 import PageHeader from "../components/common/PageHeader";
+import PageLayout from "../components/common/PageLayout";
+import Loading from "../components/common/Loading";
+import { getPageDetails } from "../api/pageApi";
 
 export default function TermsPage() {
+  const [terms, setTerms] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTerms = async () => {
+      try {
+        const res = await getPageDetails("Terms and Conditions");
+        setTerms(res.data);
+      } catch (error) {
+        console.error("Failed to fetch Terms page", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTerms();
+  }, []);
+
+  if (loading) return <Loading />;
+  if (!terms) return <div className="text-center py-20">No Data Found</div>;
+
   return (
     <section className="bg-white">
-      <PageHeader title="Terms & Conditions" />
+      <PageHeader title={terms.title} />
 
-      <div className="max-w-7xl mx-auto px-6 py-10 lg:py-14 grid grid-cols-1 lg:grid-cols-4 gap-10">
-        {/* TOC Sidebar */}
-        <div className="relative">
-          <div className="sticky top-20">
-            <TOC items={termsData.map(({ slug, title }) => ({ id: slug, title }))} />
-          </div>
-        </div>
-
-        {/* Content */}
-        <article className="lg:col-span-3 space-y-12">
-          {termsData.map((section, index) => (
-            <section key={section.slug} id={section.slug} className="scroll-mt-24">
-              <h2 className="text-2xl font-semibold text-primary mb-4">
-                {index + 1}. {section.title}
-              </h2>
-              <p className="text-gray-700 leading-relaxed">{section.content}</p>
-            </section>
-          ))}
+      <PageLayout className="py-10 lg:py-14">
+        <article className="prose prose-lg max-w-none text-gray-700">
+          <div
+            dangerouslySetInnerHTML={{ __html: terms.description }}
+          />
         </article>
-      </div>
+      </PageLayout>
     </section>
   );
 }

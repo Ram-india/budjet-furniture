@@ -30,12 +30,12 @@ export default function Footer() {
 
       {/* NEWSLETTER */}
       <div className="cream-bg">
-        <div className="max-w-7xl mx-auto px-6 py-20 grid gap-10 md:grid-cols-2 border-b border-theme">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 grid gap-8 md:grid-cols-2 items-center border-b border-theme">
           <div>
-            <p className="text-secondary font-medium mb-3 text-sm sm:text-base">
+            <p className="text-secondary font-medium mb-2 sm:mb-3 text-xs sm:text-sm uppercase tracking-wide">
               Join our newsletter
             </p>
-            <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-4">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary mb-4">
               Get our emails for info on new items, sales and more.
             </h2>
           </div>
@@ -45,15 +45,15 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder="Enter your email address"
-                className="peer w-full bg-transparent py-2 border-b border-primary outline-none text-primary focus:border-transparent sm:text-base"
+                className="peer w-full bg-transparent py-2 sm:py-3 border-b-2 border-gray-300 outline-none text-sm sm:text-base placeholder-gray-400 focus:border-primary transition-colors"
               />
-              <span className="absolute left-0 -bottom-[1px] h-[2px] w-0 bg-secondary transition-all duration-300 peer-focus:w-full" />
-              <FiArrowRight className="absolute right-0 top-1/2 -translate-y-1/2 text-primary text-xl pointer-events-none" />
+              <span className="absolute left-0 -bottom-[2px] h-[2px] w-0 bg-secondary transition-all duration-300 peer-focus:w-full" />
+              <FiArrowRight className="absolute right-0 top-1/2 -translate-y-1/2 text-primary text-lg sm:text-xl pointer-events-none" />
             </div>
 
-            <p className="text-sm text-gray-600 mt-3">
+            <p className="text-xs sm:text-sm text-gray-600 mt-3">
               By subscribing you agree to our{" "}
-              <span className="inline-flex [&>a]:after:content-['&'] [&>a]:after:mx-2 [&>a:last-child]:after:content-none">
+              <span className="inline-flex gap-2 [&>a]:after:content-['|'] [&>a]:after:mx-2 [&>a:last-child]:after:content-none">
                 {links.map((link, index) => (
                   <NavLink
                     key={index}
@@ -70,19 +70,19 @@ export default function Footer() {
       </div>
 
       {/* FOOTER LINKS */}
-      <div className="max-w-7xl mx-auto px-6 grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 text-sm py-14">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 grid gap-12 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 py-12 sm:py-16">
         {/* Column 1: About Us */}
         <div>
-          <h4 className="font-semibold text-primary mb-4 text-lg sm:text-xl">
+          <h4 className="font-bold text-base sm:text-lg md:text-xl text-primary mb-4">
             About Us
           </h4>
-          <p className="mb-4 text-gray-700 text-sm sm:text-base">
+          <p className="mb-4 text-gray-700 text-xs sm:text-sm leading-relaxed">
             We are a leading furniture shop providing quality products and
             exceptional customer service.
           </p>
           <NavLink
             to="/about"
-            className="inline-block px-6 py-2 bg-themeSecondary text-gray-800 font-medium rounded-full hover:bg-themeSecondaryDark transition-colors duration-300 shadow-md hover:shadow-lg text-sm sm:text-base"
+            className="inline-block px-6 py-2 bg-themeSecondary text-gray-800 font-medium rounded-full hover:bg-themeSecondaryDark transition-colors duration-300 shadow-md hover:shadow-lg text-xs sm:text-sm"
           >
             Learn More
           </NavLink>
@@ -96,13 +96,18 @@ export default function Footer() {
 
         {/* Column 3: Contact Info */}
         <div>
-          <h4 className="font-semibold text-primary mb-4 text-lg sm:text-xl">
+          <h4 className="font-bold text-base sm:text-lg md:text-xl text-primary mb-4">
             Contact
           </h4>
 
-          <div className="">
+          <div className="space-y-2 sm:space-y-3">
             {settings?.address && (
-              <ContactItem icon={<FaMapMarkerAlt />} label={settings.address} />
+              <div className="text-gray-700 text-xs sm:text-sm hover:text-secondary transition-colors">
+                <div className="flex items-start gap-2 sm:gap-3">
+                  <span className='text-secondary flex-shrink-0 text-sm sm:text-base mt-0.5'><FaMapMarkerAlt /></span>
+                  <span className='break-words'>{settings.address}</span>
+                </div>
+              </div>
             )}
             {settings?.email && (
               <ContactItem
@@ -123,35 +128,15 @@ export default function Footer() {
 
         {/* Column 4: Newsletter & Socials */}
         <div>
-          <h4 className="font-semibold text-primary mb-4 text-lg sm:text-xl">
-            Newsletter
+          <h4 className="font-bold text-base sm:text-lg md:text-xl text-primary mb-4">
+            Connect With Us
           </h4>
-          <p className="mb-4 text-gray-700 text-sm sm:text-base">
+          <p className="mb-4 text-gray-700 text-xs sm:text-sm leading-relaxed">
             Subscribe to get our latest updates and offers.
           </p>
 
-          {/* Underline input style */}
-          <form className="flex flex-col sm:flex-row items-center gap-3">
-            <div className="relative w-full">
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                className="peer w-full bg-transparent py-2 text-black border-b-2 border-gray-300 focus:border-transparent outline-none transition-colors duration-300"
-              />
-              {/* Animated underline */}
-              <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-secondary transition-all duration-500 ease-out peer-focus:w-full"></span>
-            </div>
-
-            <button
-              type="submit"
-              className="px-6 py-2 bg-secondary text-gray-800 font-medium rounded-full hover:bg-themeSecondaryDark transition-colors duration-300 shadow-md hover:shadow-lg"
-            >
-              Subscribe
-            </button>
-          </form>
-
           {/* Social Icons */}
-          <div className="flex gap-4 mt-6 text-base sm:text-lg">
+          <div className="flex gap-3 sm:gap-4 mb-6">
             {settings?.facebook_link && (
               <SocialIcon
                 href={settings.facebook_link}
@@ -184,31 +169,30 @@ export default function Footer() {
       </div>
 
       {/* COPYRIGHT */}
-      <div className="border-t border-theme py-6 text-center text-sm grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="text-gray-600">
-          <p>Logo</p>
-        </div>
-        <div className="text-gray-600">
-          <p>
-            Developed by{" "}
-            <a href="#" className="text-themeSecondary hover:underline">
-              Cute Websolutions
-            </a>
-          </p>
-        </div>
-        <div className="flex justify-center md:justify-center gap-4 text-gray-600">
-          {links.map((link, index) => (
-            <NavLink
-              key={index}
-              to={link.path}
-              className="text-primary hover:text-secondary transition-colors duration-200 text-sm sm:text-base"
-            >
-              {link.label}
-              {index !== links.length - 1 && (
-                <span className="mx-2 text-gray-400">|</span>
-              )}
-            </NavLink>
-          ))}
+      <div className="border-t border-theme py-8 sm:py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-center">
+          <div className="text-gray-600 text-xs sm:text-sm">
+            <p className="font-semibold text-primary">Furniture Store</p>
+          </div>
+          <div className="text-gray-600 text-xs sm:text-sm">
+            <p>
+              © 2026 All Rights Reserved | Developed by{" "}
+              <a href="https://www.cuteweb.in" className="text-themeSecondary font-semibold hover:underline">
+                CuteWeb Solutions
+              </a>
+            </p>
+          </div>
+          <div className="flex justify-center gap-3 text-gray-600 text-xs sm:text-sm">
+            {links.map((link, index) => (
+              <NavLink
+                key={index}
+                to={link.path}
+                className="text-primary hover:text-secondary transition-colors duration-200"
+              >
+                {link.label}
+              </NavLink>
+            ))}
+          </div>
         </div>
       </div>
     </footer>
@@ -216,18 +200,35 @@ export default function Footer() {
 }
 
 function FooterCol({ title, items }) {
+  const pageRoutes = {
+    "Home": "/",
+    "About": "/about",
+    "Products": "/products",
+    "Gallery": "/gallery",
+    "Blog": "/blog",
+    "Contact": "/contact"
+  };
+
   return (
     <div>
-      <h4 className="font-semibold text-primary mb-4 text-lg sm:text-xl">
+      <h4 className="font-bold text-base sm:text-lg md:text-xl text-primary mb-4">
         {title}
       </h4>
-      <ul className="space-y-2 text-sm sm:text-base">
+      <ul className="space-y-2">
         {items.map((item, i) => (
-          <li
-            key={i}
-            className="hover:text-secondary cursor-pointer transition-colors duration-200"
-          >
-            {item}
+          <li key={i}>
+            <NavLink
+              to={pageRoutes[item] || "/"}
+              className={({ isActive }) =>
+                `inline-block text-xs sm:text-sm transition-colors duration-200 ${
+                  isActive
+                    ? "text-primary font-semibold"
+                    : "text-gray-700 hover:text-secondary"
+                }`
+              }
+            >
+              {item}
+            </NavLink>
           </li>
         ))}
       </ul>
@@ -240,7 +241,7 @@ function SocialIcon({ href, icon }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-gray-500 hover:text-themeSecondary transition-colors duration-200"
+      className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center border border-gray-300 rounded-full text-gray-600 hover:text-white hover:bg-primary hover:border-primary transition-all duration-300"
     >
       {icon}
     </a>

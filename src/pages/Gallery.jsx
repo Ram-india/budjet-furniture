@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import PageHeader from "../components/common/PageHeader";
+import PageLayout from "../components/common/PageLayout";
 import Lightbox from "../components/common/LightBox";
 import api from "../api/axios";
 
@@ -62,9 +63,9 @@ export default function Gallery() {
       </div>
 
       {/* GALLERY */}
-      <section className="pb-20">
-        <div className="max-w-7xl mx-auto px-6 columns-1 sm:columns-2 md:columns-3 gap-6 space-y-6">
-          {filtered.map(item => (
+      <PageLayout className="pb-20">
+          <div className="columns-1 sm:columns-2 md:columns-3 gap-6 space-y-6">
+            {filtered.map(item => (
   <motion.div
     key={item.gallery_id}
     initial={{ opacity: 0, y: 30 }}
@@ -97,8 +98,8 @@ export default function Gallery() {
     />
   </motion.div>
 ))}
-        </div>
-      </section>
+          </div>
+      </PageLayout>
 
       {/* LIGHTBOX */}
       <Lightbox

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PageHeader from '../components/common/PageHeader';
+import PageLayout from '../components/common/PageLayout';
 import { Link } from 'react-router-dom';
 import api from '../api/axios';
 
@@ -12,7 +13,7 @@ const Blogs = () => {
       .then(res => {
         const blogs = Array.isArray(res.data) ? res.data : res.data.data || [];
         setBlogData(blogs);
-        console.log('Blogs fetched:', blogs);
+     
       })
       .catch(err => {
         console.error("Blog API Error:", err);
@@ -25,12 +26,12 @@ const Blogs = () => {
 
   return (
     <>
-      <PageHeader title="Blog" subtitle="Crafting comfort and style for modern living" />
-      <section className="max-w-7xl mx-auto px-6 py-20">
-        <h2 className="text-3xl font-bold text-primary mb-10">Our Blog</h2>
+      <PageHeader title="Offers" subtitle="Crafting comfort and style for modern living" />
+      <PageLayout className="py-20">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-10">Our Offers</h2>
 
         {loading ? (
-          <p className="text-center text-gray-600">Loading blogs...</p>
+          <p className="text-center text-base sm:text-lg text-gray-600">Loading blogs...</p>
         ) : blogData.length > 0 ? (
           <div className="grid md:grid-cols-3 gap-8">
             {blogData.map((blog) => {
@@ -49,16 +50,16 @@ const Blogs = () => {
                       onError={(e) => (e.currentTarget.src = '/images/placeholder.jpg')}
                     />
                   </div>
-                  <h3 className="font-semibold text-primary">{blog.title}</h3>
+                  <h3 className="font-semibold text-base sm:text-lg text-primary">{blog.title}</h3>
                   <p className="text-sm text-theme mt-2">{blog.date || blog.created_on}</p>
                 </Link>
               );
             })}
           </div>
         ) : (
-          <p className="text-center text-gray-600">No blogs found</p>
+          <p className="text-center text-base sm:text-lg text-gray-600">No Offers found</p>
         )}
-      </section>
+      </PageLayout>
     </>
   );
 }

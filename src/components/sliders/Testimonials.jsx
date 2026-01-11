@@ -34,10 +34,10 @@ export default function Testimonials() {
   if(loading)return <p className="text-center py-20">Loading...</p>;
   if(!reviews.length)return <p className="text-center py-20">No testimonials found</p>;
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-6 text-center">
-        <h2 className="text-3xl font-bold text-primary">Our Lucky Customers</h2>
-        <p className="text-theme mt-2 mb-14">
+    <section className="py-16 sm:py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-2">Our Lucky Customers</h2>
+        <p className="text-sm sm:text-base text-gray-600 mb-12 sm:mb-16">
           Visit our shop to see amazing creations from our designers.
         </p>
 

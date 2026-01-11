@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { FiSearch, FiShoppingCart, FiUser, FiMenu, FiX } from "react-icons/fi";
+import { FiMenu, FiX } from "react-icons/fi";
 import { useSettings } from "../../context/SettingsContext";
 
 const LOGO_URL = "https://cuteweb.in/sandbox/budget/admin/uploads/settings/";
@@ -15,27 +15,27 @@ export default function Navbar() {
     { name: "About", path: "/about" },
     { name: "Products", path: "/products" },
     { name: "Gallery", path: "/gallery" },
-    { name: "Blog", path: "/blog" },
+    { name: "Offers", path: "/blog" },
     { name: "Contact", path: "/contact" },
   ];
 
   return (
-    <header className="bg-white border-b border-theme sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
           {/* LOGO */}
-          <NavLink to="/" className="text-2xl font-bold text-primary">
+          <NavLink to="/" className="text-2xl font-bold text-primary flex-shrink-0">
             {
               <img
               src={`${LOGO_URL}${settings.logo}`}
               alt={settings.name}
-              className="h-10"
+              className="h-12 sm:h-14 w-auto"
               />
             }
           </NavLink>
 
           {/* DESKTOP MENU */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-2 lg:gap-8 flex-1 justify-center mx-8">
   {links.map((link) => (
   <NavLink
   key={link.name}
@@ -44,13 +44,13 @@ export default function Navbar() {
 >
   {({ isActive }) => (
     <span
-      className={`relative inline-block group font-medium transition-colors duration-300
-        ${isActive ? "text-primary" : "text-gray-700 hover:text-secondary"}`}
+      className={`relative inline-block group font-medium text-sm lg:text-base transition-colors duration-300 px-2 lg:px-3 py-2
+        ${isActive ? "text-primary" : "text-gray-700 hover:text-primary"}`}
     >
       {link.name}
 
       <span
-        className={`absolute left-0 -bottom-1 h-[2px] bg-primary transition-all duration-300
+        className={`absolute left-0 -bottom-0.5 h-[2px] bg-primary transition-all duration-300
           ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}
       />
     </span>
@@ -60,17 +60,13 @@ export default function Navbar() {
 </nav>
 
           {/* RIGHT ICONS */}
-          <div className="flex items-center gap-5">
-            <FiSearch className="text-xl cursor-pointer hover:text-primary" />
-            {/* <FiUser className="text-xl cursor-pointer hover:text-primary" />
-            <FiShoppingCart className="text-xl cursor-pointer hover:text-primary" /> */}
-
+          <div className="flex items-center gap-6">
             {/* MOBILE MENU BUTTON */}
             <button
-              className="md:hidden text-2xl"
+              className="md:hidden text-2xl text-gray-700 hover:text-primary transition"
               onClick={() => setOpen(!open)}
             >
-              {open ? <FiX /> : <FiMenu />}
+              {open ? <FiX size={28} /> : <FiMenu size={28} />}
             </button>
           </div>
         </div>

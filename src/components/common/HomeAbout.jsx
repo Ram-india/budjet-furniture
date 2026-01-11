@@ -55,26 +55,26 @@ export default function HomeAbout() {
 
         {/* RIGHT CONTENT */}
         <div>
-          <span className="inline-block mb-3 text-sm font-medium text-secondary tracking-wide">
+          <span className="inline-block mb-3 text-sm sm:text-base font-medium text-secondary tracking-wide">
             ABOUT OUR STORY
           </span>
 
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-4">
             {page.title}
           </h2>
 
-          <p className="text-gray-600 mb-6 leading-relaxed text-justify">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-6 leading-relaxed text-justify">
             {limitHtmlText(page.description, 1500)}
           </p>
 
           {/* STATS */}
           <div className="grid grid-cols-2 gap-6 mb-6">
             <div>
-              <h3 className="text-2xl font-bold text-primary">10+</h3>
+              <h3 className="text-2xl sm:text-3xl font-bold text-primary">10+</h3>
               <p className="text-gray-600 text-sm">Years of Experience</p>
             </div>
             <div>
-              <h3 className="text-2xl font-bold text-primary">5,000+</h3>
+                <h3 className="text-2xl sm:text-3xl font-bold text-primary">5,000+</h3>
               <p className="text-gray-600 text-sm">Happy Customers</p>
             </div>
           </div>

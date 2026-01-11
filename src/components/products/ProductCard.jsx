@@ -13,6 +13,7 @@ export default function ProductCard({ product }) {
       {/* Image */}
       <div className="overflow-hidden bg-gray-50">
         <img
+        
           src={imgSrc}
           alt={product.title || product.name}
           className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"

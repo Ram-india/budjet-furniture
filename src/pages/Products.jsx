@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CategoryFilter from "../components/products/CategoryFilter";
 import ProductCard from "../components/products/ProductCard";
 import PageHeader from "../components/common/PageHeader";
+import PageLayout from "../components/common/PageLayout";
 import { getProductCategories, getProducts } from "../api/productApi";
 import Loading from "../components/common/Loading";
 
@@ -61,8 +62,7 @@ const Products = () => {
         const catList = ["All", ...categoryList];
         setCategories(catList);
 
-        console.log("Products loaded:", productsList.length);
-        console.log("Categories loaded:", catList);
+       
       } catch (err) {
         console.error("Products API Error:", err);
       } finally {
@@ -89,31 +89,33 @@ const Products = () => {
         subtitle="Browse our exclusive range of furniture."
       />
 
-      <div className="max-w-7xl mx-auto px-6 py-14 grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Categories Sidebar */}
-        <CategoryFilter
-          categories={categories}
-          active={activeCategory}
-          onChange={SetActiveCategory}
-        />
-        {/* Products Grid */}
-        <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
-              <ProductCard
-                key={`${product.product_id || product.id}-${product.slug}`}
-                product={product}
-              />
-            ))
-          ) : (
-            <div className="col-span-full text-center py-12">
-              <p className="text-gray-600 text-lg">
-                No products found in this category.
-              </p>
-            </div>
-          )}
+      <PageLayout className="py-14">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Categories Sidebar */}
+          <CategoryFilter
+            categories={categories}
+            active={activeCategory}
+            onChange={SetActiveCategory}
+          />
+          {/* Products Grid */}
+          <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map((product) => (
+                <ProductCard
+                  key={`${product.product_id || product.id}-${product.slug}`}
+                  product={product}
+                />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-gray-600 text-base sm:text-lg lg:text-xl">
+                  No products found in this category.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </PageLayout>
     </section>
   );
 };
