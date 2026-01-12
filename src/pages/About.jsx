@@ -14,10 +14,11 @@ useEffect(()=>{
     try{
       const [aboutRes, chooseRes] = await Promise.all([
         getPageDetails("About Us"),
-        getPageDetails("Why Choose Us"),
+        getPageDetails("Why Choose Us")
       ]);
       setAbout(aboutRes.data);
       setChoose(chooseRes.data);
+      console.log("Image base URL:", import.meta.env.VITE_IMAGE_BASE_URL);
     }catch(error){
       console.error("Failed to fetch pages", error);
     }finally{
