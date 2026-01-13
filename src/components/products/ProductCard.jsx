@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { getImageUrl } from "../utils/getImageUrl";
+// import { getImageUrl } from "../utils/getImageUrl";
 
 // src/components/shop/ProductCard.jsx
 export default function ProductCard({ product }) {
