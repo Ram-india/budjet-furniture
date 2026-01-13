@@ -5,6 +5,7 @@ import { getProducts, getProductsDetails } from "../api/productApi";
 import Loading from "../components/common/Loading";
 import PageLayout from "../components/common/PageLayout";
 import { getImageUrl } from "../utils/getImageUrl";
+import PageHeader from "../components/common/PageHeader";
 
 export default function ProductDetails() {
   const { slug } = useParams();
@@ -19,7 +20,7 @@ export default function ProductDetails() {
       try {
         // If we have product ID from URL, fetch directly
         if (productIdFromUrl) {
-          console.log("Fetching product with ID:", productIdFromUrl);
+
           const detailRes = await getProductsDetails(productIdFromUrl);
           
           // Handle different response structures for details
@@ -59,7 +60,7 @@ export default function ProductDetails() {
         );
 
         if (!foundProduct) {
-          console.log("Product not found with slug:", slug);
+          // console.log("Product not found with slug:", slug);
           setProduct(null);
           setLoading(false);
           return;
@@ -113,7 +114,17 @@ export default function ProductDetails() {
   }
 
   return (
+    <section>
+     
+    {/* HERO */}
+            <PageHeader
+              title={product.title}
+              
+            />
+
+    
     <PageLayout className="py-16">
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
 
         {/* Image */}
@@ -159,5 +170,6 @@ export default function ProductDetails() {
         </div>
       </div>
     </PageLayout>
+    </section>
   );
 }

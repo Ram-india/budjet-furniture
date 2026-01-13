@@ -26,10 +26,11 @@ export default function ProductCard({ product }) {
 
       {/* Content */}
       <div className="mt-4 text-center">
-        <h3 className="font-medium text-primary">
+        <h3 className="font-medium text-primary p-2">
           {product.title || product.name}
         </h3>
-        <p className="text-sm text-gray-500 mt-1">
+        
+        <p className="text-sm text-gray-500 p-2 bg-gray-50">
           {product.category}
         </p>
       </div>
