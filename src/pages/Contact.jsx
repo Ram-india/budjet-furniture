@@ -242,39 +242,7 @@ export default function Contact() {
         </div>
       </PageLayout>
 
-      {/* FAQ SECTION */}
-      <PageLayout className="py-16 sm:py-20 border-t border-gray-300">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 text-center mb-12">Frequently Asked Questions</h2>
-          <div className="space-y-3">
-            {faqItems.map((item) => (
-              <div 
-                key={item.id}
-                className="bg-gray-50 border border-gray-300 rounded-lg overflow-hidden hover:bg-gray-100 transition"
-              >
-                <button
-                  onClick={() => setOpenFAQ(openFAQ === item.id ? null : item.id)}
-                  className="w-full text-left font-semibold text-sm sm:text-base text-gray-900 p-6 flex items-center justify-between hover:text-gray-700 transition"
-                >
-                  {item.question}
-                  <FiChevronDown 
-                    className={`w-5 h-5 text-gray-600 flex-shrink-0 transition-transform duration-300 ${
-                      openFAQ === item.id ? 'transform rotate-180' : ''
-                    }`}
-                  />
-                </button>
-                {openFAQ === item.id && (
-                  <div className="px-6 pb-6 border-t border-gray-300 animate-fadeIn">
-                    <p className="text-sm sm:text-base text-gray-700 font-light leading-relaxed">
-                      {item.answer}
-                    </p>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </PageLayout>
+      
     </section>
   );
 }

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { getImageUrl } from "../utils/getImageUrl";
 
 // src/components/shop/ProductCard.jsx
 export default function ProductCard({ product }) {
@@ -14,11 +15,11 @@ export default function ProductCard({ product }) {
       <div className="overflow-hidden bg-gray-50">
         <img
         
-          src={imgSrc}
+          src={product.hdImage}
           alt={product.title || product.name}
           className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
           onError={(e) => {
-            e.currentTarget.src = "/images/product-placeholder.webp";
+            e.currentTarget.src = "/images/placeholder.png";
           }}
         />
       </div>
