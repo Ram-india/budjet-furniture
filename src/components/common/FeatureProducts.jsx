@@ -1,27 +1,15 @@
-import { useEffect, useState } from "react";
-import api from "../../api/axios";
+
+import { useProducts } from "../../context/ProductContext";
 import ProductCard from "../products/ProductCard";
 
+
 export default function FeaturedProducts() {
-  const [products, setProducts] = useState([]);
+const {featuredProducts, loading} = useProducts();
 
-  useEffect(() => {
-    api.get("/getHomePageProducts")
-      .then((res) => {
-        setProducts(res.data);
-      })
-      .catch((err) =>
-        console.error("Featured Products API Error:", err)
-      );
-  }, []);
+if (loading) return <p className="py-16 text-center">Loading...</p>;
+if (!featuredProducts.length) return null;
 
-  if (!products.length) {
-    return (
-      <section className="py-16 text-center">
-        <p>Loading products...</p>
-      </section>
-    );
-  }
+
 
   return (
     <section className="py-16">
@@ -31,7 +19,7 @@ export default function FeaturedProducts() {
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {products.map((product, index) => (
+          {featuredProducts.map((product, index) => (
             <ProductCard
               key={`${product.product_id || product.id}-${index}`}
               product={{

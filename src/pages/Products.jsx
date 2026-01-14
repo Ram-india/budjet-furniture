@@ -98,7 +98,7 @@ const Products = () => {
             onChange={SetActiveCategory}
           />
           {/* Products Grid */}
-          <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
             {filteredProducts.length > 0 ? (
               filteredProducts.map((product) => (
                 <ProductCard
