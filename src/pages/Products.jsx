@@ -14,6 +14,17 @@ const Products = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      // Load cached instantly (offline first)
+      try{
+        const cachedProducts = JSON.parse(localStorage.getItem("allProducts"));
+        const cachedCategories = JSON.parse(localStorage.getItem("allCategories"));
+        
+        if(cachedProducts) setProducts(cachedProducts);
+        if(cachedCategories) setCategories(["All", ...cachedCategories]);
+      }catch{
+        localStorage.removeItem("allProducts");
+        localStorage.removeItem("allCategories")
+      }
       try {
         const [productsRes, categoriesRes] = await Promise.all([
           getProducts(),

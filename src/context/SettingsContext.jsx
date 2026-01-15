@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getSettings } from '../api/settingsApi';
-import Loading from '../components/common/Loading';
+
 
 const SettingsContext = createContext(null);
 
@@ -10,11 +10,21 @@ export const SettingsProvider = ({children}) => {
 
    useEffect(()=>{
     const fetchSettings =  async () =>{
+        let cached = null;
+        
+        try {
+            cached = JSON.parse(localStorage.getItem("settings"));
+            if (cached) setSettings(cached);
+          } catch (e) {
+            localStorage.removeItem("settings"); // auto-fix corrupted cache
+        }
+
         try{
             const res = await getSettings();
             setSettings(res.data);
+            localStorage.setItem("settings",JSON.stringify(res.data));
         }catch(error){
-            console.error("Settings API Error:", error);
+            console.warn("Offline mode: using cached settings", error);
         }finally{
             setLoading(false);
         }

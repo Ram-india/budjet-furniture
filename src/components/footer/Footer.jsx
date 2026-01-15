@@ -1,4 +1,4 @@
-import { FiArrowRight } from "react-icons/fi";
+
 import {
   FaEnvelope,
   FaPhone,
@@ -12,7 +12,8 @@ import {
 import { NavLink } from "react-router-dom";
 import Features from "../home/Features";
 import { useSettings } from "../../context/SettingsContext";
-import ContactItem from "./ContactItem";
+import ContactItem from "../common/ContactItem";
+import EmailSubscribe from "./EmailSubscribe";
 
 export default function Footer() {
   const { settings } = useSettings();
@@ -28,46 +29,7 @@ export default function Footer() {
       {/* FEATURES */}
       <Features />
 
-      {/* NEWSLETTER */}
-      <div className="cream-bg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 grid gap-8 md:grid-cols-2 items-center border-b border-theme">
-          <div>
-            <p className="text-secondary font-medium mb-2 sm:mb-3 text-xs sm:text-sm uppercase tracking-wide">
-              Join our newsletter
-            </p>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary mb-4">
-              Get our emails for info on new items, sales and more.
-            </h2>
-          </div>
-
-          <div>
-            <div className="relative">
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                className="peer w-full bg-transparent py-2 sm:py-3 border-b-2 border-gray-300 outline-none text-sm sm:text-base placeholder-gray-400 focus:border-primary transition-colors"
-              />
-              <span className="absolute left-0 -bottom-[2px] h-[2px] w-0 bg-secondary transition-all duration-300 peer-focus:w-full" />
-              <FiArrowRight className="absolute right-0 top-1/2 -translate-y-1/2 text-primary text-lg sm:text-xl pointer-events-none" />
-            </div>
-
-            <p className="text-xs sm:text-sm text-gray-600 mt-3">
-              By subscribing you agree to our{" "}
-              <span className="inline-flex gap-2 [&>a]:after:content-['|'] [&>a]:after:mx-2 [&>a:last-child]:after:content-none">
-                {links.map((link, index) => (
-                  <NavLink
-                    key={index}
-                    to={link.path}
-                    className="text-primary hover:text-secondary transition-colors"
-                  >
-                    {link.label}
-                  </NavLink>
-                ))}
-              </span>
-            </p>
-          </div>
-        </div>
-      </div>
+      <EmailSubscribe/>
 
       {/* FOOTER LINKS */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 grid gap-12 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 py-12 sm:py-16">
