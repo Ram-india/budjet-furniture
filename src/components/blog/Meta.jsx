@@ -1,5 +1,6 @@
-import React from "react";
 
+
+import { useEffect } from "react";
 import { getImageUrl } from "../../utils/getImageUrl";
 import { useLocation } from "react-router-dom";
 
@@ -7,32 +8,58 @@ const Meta = ({ data }) => {
   const location = useLocation();
   if (!data) return null;
 
-  const url = window.location.origin + "/data" + data.slug;
   const title = data.meta_title || data.title;
   const description = data.meta_description || data.excerpt || data.title;
   const image = getImageUrl(data.image || data.hdImage, "datas");
+  const url = `${window.location.origin }${location.pathname}`;
 
-  return (
-    <>
-      {/* Basic */}
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <meta name="keywords" content={data.meta_keyword} />
+  useEffect(() => {
+    // Title
+    if (title) document.title = title;
 
-      {/* Open Graph */}
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={image} />
-      <meta property="og:url" content={url} />
-      <meta property="og:type" content="article" />
+    // Basic
+    setMeta("description", description);
+    setMeta("keywords", data.meta_keyword);
 
-      {/* Twitter */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
-    </>
-  );
+    // Open Graph
+    setProperty("og:title", title);
+    setProperty("og:description", description);
+    setProperty("og:image", image);
+    setProperty("og:url", url);
+    setProperty("og:type", "article");
+
+    // Twitter
+    setMeta("twitter:card", "summary_large_image");
+    setMeta("twitter:title", title);
+    setMeta("twitter:description", description);
+    setMeta("twitter:image", image);
+  }, [title, description, image, url, data.meta_keyword]);
+
+  return null;
 };
 
+
 export default Meta;
+
+// ----Helpers---- //
+
+function setMeta(name, content){
+  if(!content) return;
+  let tag = document.querySelector(`meta[name="${name}"]`);
+  if(!tag){
+    tag = document.createElement("meta");
+    tag.setAttribute("name", name);
+    document.head.appendChild(tag);
+  }
+  tag.setAttribute("content", content);
+}
+function setProperty(property, content){
+  if(!content) return;
+  let tag = document.querySelector(`meta[property="{property}"]`);
+  if(!tag){
+    tag = document.createElement("meta");
+    tag.setAttribute("property",property);
+    document.head.appendChild(tag);
+  }
+  tag.setAttribute("content", content);
+}
