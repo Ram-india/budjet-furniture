@@ -1,8 +1,13 @@
 import { useParams, useSearchParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getBlogs, getBlogDetailsById, getBlogDetailsBySlug } from "../api/blogApi";
+import {
+  getBlogs,
+  getBlogDetailsById,
+  getBlogDetailsBySlug,
+} from "../api/blogApi";
 import PageLayout from "../components/common/PageLayout";
 import { getImageUrl } from "../utils/getImageUrl";
+import Meta from "../components/blog/Meta";
 
 export default function BlogDetail() {
   const { slug } = useParams();
@@ -21,20 +26,25 @@ export default function BlogDetail() {
 
         // Method 1: Fetch by ID if available
         if (blogIdFromUrl) {
-         
           const blogRes = await getBlogDetailsById(blogIdFromUrl);
-          blogData = Array.isArray(blogRes.data) ? blogRes.data[0] : blogRes.data.data || blogRes.data;
+          blogData = Array.isArray(blogRes.data)
+            ? blogRes.data[0]
+            : blogRes.data.data || blogRes.data;
         }
         // Method 2: Fallback - Fetch by slug
         else if (slug) {
-     
           const blogRes = await getBlogDetailsBySlug(slug);
-          blogData = Array.isArray(blogRes.data) ? blogRes.data[0] : blogRes.data.data || blogRes.data;
+          blogData = Array.isArray(blogRes.data)
+            ? blogRes.data[0]
+            : blogRes.data.data || blogRes.data;
         }
 
         // Fetch recent blogs
         const recentRes = await getBlogs();
-        const blogs = Array.isArray(recentRes.data) ? recentRes.data : recentRes.data.data || [];
+
+        const blogs = Array.isArray(recentRes.data)
+          ? recentRes.data
+          : recentRes.data.data || [];
 
         setBlog(blogData || null);
         setRecentBlogs(blogs);
@@ -53,7 +63,9 @@ export default function BlogDetail() {
   if (!blog) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-4">offers not found</h2>
+        <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-4">
+          offers not found
+        </h2>
         <Link
           to="/blogs"
           className="inline-block px-6 py-2 bg-primary text-white rounded-full hover:bg-primary/90 transition"
@@ -63,18 +75,18 @@ export default function BlogDetail() {
       </div>
     );
   }
- 
-
 
   return (
     <section>
       {/* HERO */}
-      <div className="relative" style={{ height: '350px' }}>
+      {/* SEO META */}
+      <Meta data={blog} />
+
+      <div className="relative" style={{ height: "350px" }}>
         <img
-         src={getImageUrl(blog.hdImage || blog.image ,"blogs")}
-          
+          src={getImageUrl(blog.hdImage || blog.image, "blogs")}
           className="w-full h-full object-cover"
-          onError={(e) => (e.currentTarget.src = '/images/placeholder.jpg')}
+          onError={(e) => (e.currentTarget.src = "/images/placeholder.jpg")}
         />
 
         <div className="absolute inset-0 bg-black/50 flex items-center">
@@ -82,13 +94,15 @@ export default function BlogDetail() {
             <p className="text-sm sm:text-base mb-2">
               <Link to="/" className="hover:underline">
                 Home
-              </Link>
-              {' '}/{' '}
+              </Link>{" "}
+              /{" "}
               <Link to="/blogs" className="hover:underline">
                 Offers
               </Link>
             </p>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold max-w-3xl">{blog.title}</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold max-w-3xl">
+              {blog.title}
+            </h1>
           </div>
         </div>
       </div>
@@ -99,17 +113,16 @@ export default function BlogDetail() {
           {/* MAIN CONTENT */}
           <div className="lg:col-span-2">
             <div className="flex gap-4 text-sm sm:text-base text-gray-600 mb-6">
-              <span>By {blog.author || 'Admin'}</span>
+              <span>By {blog.author || "Admin"}</span>
               <span>•</span>
               <span>{blog.created_on || blog.date}</span>
             </div>
 
             <img
-              src={getImageUrl(blog.hdImage || blog.image ,"blogs")}
-          
+              src={getImageUrl(blog.hdImage || blog.image, "blogs")}
               alt={blog.title}
               className="rounded-2xl mb-10 w-full"
-              onError={(e) => (e.currentTarget.src = '/images/placeholder.jpg')}
+              onError={(e) => (e.currentTarget.src = "/images/placeholder.jpg")}
             />
 
             {/* Rich text content */}
@@ -126,7 +139,10 @@ export default function BlogDetail() {
                 {blog.content.map((item, index) => {
                   if (item.type === "heading")
                     return (
-                      <h3 key={index} className="text-xl sm:text-2xl font-semibold text-primary">
+                      <h3
+                        key={index}
+                        className="text-xl sm:text-2xl font-semibold text-primary"
+                      >
                         {item.text}
                       </h3>
                     );
@@ -157,7 +173,10 @@ export default function BlogDetail() {
                   {recentBlogs.map((b) => {
                     const bid = b.id || b.blog_id;
                     return (
-                      <li key={bid} className="pb-4 border-b border-gray-200 last:pb-0 last:border-b-0">
+                      <li
+                        key={bid}
+                        className="pb-4 border-b border-gray-200 last:pb-0 last:border-b-0"
+                      >
                         <Link
                           to={`/blog/${b.slug}?id=${bid}`}
                           className="group block"
@@ -179,7 +198,6 @@ export default function BlogDetail() {
           </aside>
         </div>
       </PageLayout>
-     
     </section>
   );
 }

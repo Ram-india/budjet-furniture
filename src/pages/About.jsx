@@ -18,7 +18,7 @@ useEffect(()=>{
       ]);
       setAbout(aboutRes.data);
       setChoose(chooseRes.data);
-      console.log("Image base URL:", import.meta.env.VITE_IMAGE_BASE_URL);
+      
     }catch(error){
       console.error("Failed to fetch pages", error);
     }finally{
@@ -64,7 +64,7 @@ useEffect(()=>{
             {/* Mission */}
             <div className="bg-white p-6 sm:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
               <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4">Mission</h3>
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed text-justify">
                {about.option1}
               </p>
             </div>
@@ -72,7 +72,7 @@ useEffect(()=>{
             {/* Vision */}
             <div className="bg-white p-6 sm:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
               <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4">Vision</h3>
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed text-justify">
                 {about.option2}
               </p>
             </div>

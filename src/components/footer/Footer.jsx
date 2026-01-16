@@ -134,12 +134,12 @@ export default function Footer() {
       <div className="border-t border-theme py-8 sm:py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-center">
           <div className="text-gray-600 text-xs sm:text-sm">
-            <p className="font-semibold text-primary">Furniture Store</p>
+            <p className="font-semibold text-primary">Budjet Furniture © 2026 All Rights Reserved </p>
           </div>
           <div className="text-gray-600 text-xs sm:text-sm">
             <p>
-              © 2026 All Rights Reserved | Developed by{" "}
-              <a href="https://www.cuteweb.in" className="text-themeSecondary font-semibold hover:underline">
+              Developed by{" "}
+              <a href="https://www.cuteweb.in" target="_blank" className="text-themeSecondary font-semibold hover:underline">
                 CuteWeb Solutions
               </a>
             </p>

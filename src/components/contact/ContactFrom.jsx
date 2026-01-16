@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { FiCheckCircle } from "react-icons/fi";
 import { submitContactForm } from "../../api/contactApi";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactForm = () => {
+  const recaptchaRef = useRef(null); 
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,7 +26,15 @@ const ContactForm = () => {
     setLoading(true);
 
     try {
-      await submitContactForm(formData);
+      // Get reCAPTCHA token
+    const token = await recaptchaRef.current.executeAsync();
+    recaptchaRef.current.reset();  
+    // Add token to form data
+    const payload = { ...formData, captchaToken: token };
+
+
+      await submitContactForm(payload);
+
       setSubmitted(true);
       setFormData({
         name: "",
@@ -143,6 +154,13 @@ const ContactForm = () => {
              hover:border-blue-500 transition-colors duration-300"
           />
         </div>
+        {/* reCaptcha */}
+        {/* reCAPTCHA */}
+      <ReCAPTCHA
+        sitekey="6Le-z0ssAAAAAG6qAHrWH2gRl8I4QZOro_fgrFAM"
+        size="invisible" // invisible or "normal" for checkbox
+        ref={recaptchaRef}
+      />
 
         {/* Submit Button */}
         <button
