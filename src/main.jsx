@@ -6,10 +6,10 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { SettingsProvider } from "./context/SettingsContext.jsx";
 import { ProductProvider } from "./context/ProductContext";
-import { HelmetProvider } from "react-helmet-async";
+
 
 createRoot(document.getElementById("root")).render(
-  <HelmetProvider>
+ 
     <BrowserRouter>
       <SettingsProvider>
         <ProductProvider>
@@ -17,5 +17,5 @@ createRoot(document.getElementById("root")).render(
         </ProductProvider>
       </SettingsProvider>
     </BrowserRouter>
-  </HelmetProvider>
+
 );

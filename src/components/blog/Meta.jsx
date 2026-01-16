@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet-async";
+
 import { getImageUrl } from "../../utils/getImageUrl";
 import { useLocation } from "react-router-dom";
 
@@ -13,7 +13,7 @@ const Meta = ({ data }) => {
   const image = getImageUrl(data.image || data.hdImage, "datas");
 
   return (
-    <Helmet>
+    <>
       {/* Basic */}
       <title>{title}</title>
       <meta name="description" content={description} />
@@ -31,7 +31,7 @@ const Meta = ({ data }) => {
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />
-    </Helmet>
+    </>
   );
 };
 
