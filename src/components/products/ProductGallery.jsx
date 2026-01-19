@@ -17,7 +17,7 @@ export default function ProductGallery({ images = [], title }) {
       {/* Main Image */}
       <div className="bg-gray-50 border rounded-xl overflow-hidden">
         <img
-          src={getImageUrl(activeImage, "product")}
+          src={getImageUrl(activeImage, "serviceslider")}
           alt={title}
           className="w-full h-[380px] object-contain transition-transform duration-300 hover:scale-[1.03]"
         />
@@ -37,7 +37,7 @@ export default function ProductGallery({ images = [], title }) {
               }`}
           >
             <img
-              src={getImageUrl(img, "product")}
+              src={getImageUrl(img, "serviceslider")}
               alt={`${title} ${index + 1}`}
               className="w-full h-20 object-contain"
             />
