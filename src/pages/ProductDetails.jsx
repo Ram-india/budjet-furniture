@@ -7,6 +7,7 @@ import PageLayout from "../components/common/PageLayout";
 import { getImageUrl } from "../utils/getImageUrl";
 import PageHeader from "../components/common/PageHeader";
 import Meta from "../components/blog/Meta";
+import ProductGallery from "../components/products/ProductGallery";
 
 export default function ProductDetails() {
   const { slug } = useParams();
@@ -136,10 +137,9 @@ export default function ProductDetails() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
           {/* Image */}
           <div className="bg-gray-50 p-6">
-            <img
-              src={getImageUrl(product.slider, "serviceslider")}
-              alt={product.title}
-              className="w-full object-cover"
+            <ProductGallery
+            images = {product.gallery ||[product.slider]}
+            title={product.title}
             />
           </div>
 
