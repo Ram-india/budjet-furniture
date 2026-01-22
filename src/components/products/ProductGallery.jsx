@@ -1,54 +1,84 @@
-import { useEffect, useState } from "react";
-import { getImageUrl } from "../../utils/getImageUrl";
+import { useState, useRef, useEffect, useMemo } from "react";
 
-export default function ProductGallery({ images = [], title }) {
-  const [activeImage, setActiveImage] = useState(null);
-
+export default function ProductGallery({ images = [] }) {
+  const [active, setActive] = useState(0);
+  const thumbRef = useRef([]);
+  const memoImages = useMemo(
+    () => Array.isArray(images) ? images : [],
+    [images]
+  );
+  
+  // Reset active when images change
   useEffect(() => {
-    if (images.length && !activeImage) {
-      setActiveImage(images[0]);
-    }
-  }, [images, activeImage]);
+    setActive(0);
+  }, [memoImages.length]);
 
-  if (!images.length || !activeImage) return null;
+  // Auto scroll thumbnail
+  useEffect(() => {
+    thumbRef.current[active]?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  }, [active]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "ArrowRight") {
+        setActive((p) => Math.min(p + 1, memoImages.length - 1));
+      }
+      if (e.key === "ArrowLeft") {
+        setActive((p) => Math.max(p - 1, 0));
+      }
+    };
+
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [memoImages.length]);
+
+  if (!memoImages.length) {
+    return (
+      <div className="bg-gray-100 h-96 flex items-center justify-center rounded-lg">
+        No image available
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-6">
-      {/* Main Image */}
-      <div className="bg-gray-50 border rounded-xl overflow-hidden">
+    <div>
+      {/* MAIN IMAGE */}
+      <div className="border rounded-lg overflow-hidden mb-4">
         <img
-          src={getImageUrl(activeImage, "serviceslider")}
-          alt={title}
-          className="w-full h-[380px] object-contain transition-transform duration-300 hover:scale-[1.03]"
+          src={memoImages[active]?.hdImage}
+          alt="Product"
+          className="w-full h-[420px] object-contain bg-white transition-all"
+          onError={(e) => (e.target.src = "/no-image.png")}
         />
       </div>
 
-      {/* Thumbnails */}
-      <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-4">
-        {images.map((img, index) => (
-          <button
-            key={index}
-            onClick={() => setActiveImage(img)}
-            className={`snap-start border rounded-lg p-2 bg-white transition
-              ${
-                activeImage === img
-                  ? "border-primary ring-2 ring-primary/30"
-                  : "border-gray-200 hover:border-primary"
+      {/* THUMBNAILS */}
+      {memoImages.length > 1 && (
+        <div className="flex gap-3 overflow-x-auto pb-2">
+          {memoImages.map((img, index) => (
+            <button
+              key={index}
+              ref={(el) => (thumbRef.current[index] = el)}
+              onClick={() => setActive(index)}
+              className={`border rounded-md p-1 min-w-[80px] ${
+                active === index ? "border-primary" : "border-gray-300"
               }`}
-          >
-            <img
-              src={getImageUrl(img, "serviceslider")}
-              alt={`${title} ${index + 1}`}
-              className="w-full h-20 object-contain"
-            />
-          </button>
-        ))}
-      </div>
-
-      {/* Counter */}
-      <p className="text-sm text-gray-500 text-right">
-        {images.indexOf(activeImage) + 1} / {images.length}
-      </p>
+            >
+              <img
+                src={img.thumb || img.hdImage}
+                alt="Thumb"
+                className="w-20 h-20 object-cover"
+                loading="lazy"
+              />
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
