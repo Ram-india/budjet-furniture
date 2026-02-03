@@ -1,178 +1,144 @@
-import React, { useRef, useState } from "react";
-import { FiCheckCircle } from "react-icons/fi";
-import { submitContactForm } from "../../api/contactApi";
+import React, { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { submitContactForm } from "../../api/contactApi";
 
 const ContactForm = () => {
-  const recaptchaRef = useRef(null); 
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     mobile_number: "",
-    notes: "",
+    message: "",
+    company: "", // honeypot
   });
 
-  const [submitted, setSubmitted] = useState(false);
+  const [captchaVerified, setCaptchaVerified] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Honeypot check (frontend-only anti-bot)
+    if (formData.company) return;
+
+    if (!captchaVerified) {
+      alert("Please verify you are not a robot");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      // Get reCAPTCHA token
-    const token = await recaptchaRef.current.executeAsync();
-    recaptchaRef.current.reset();  
-    // Add token to form data
-    const payload = { ...formData, captchaToken: token };
-
-
-      await submitContactForm(payload);
+      await submitContactForm({
+        name: formData.name,
+        email: formData.email,
+        mobile_number: formData.mobile_number,
+        message: formData.message,
+      });
 
       setSubmitted(true);
-      setFormData({
-        name: "",
-        email: "",
-        mobile_number: "",
-        subject: "",
-        notes: "",
-      });
     } catch (error) {
-      console.error("API Error:", error.response?.data || error.message);
-      alert(
-        error.response?.data?.message ||
-          "Something went wrong. Please try again."
-      );
+      alert("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
+  if (submitted) {
+    return (
+      <div className="text-center py-10">
+        <h3 className="text-2xl font-semibold text-green-600">
+          Thank you! We’ll contact you soon.
+        </h3>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-white rounded-lg p-8 sm:p-10 border border-gray-300 shadow-sm">
-      {/* Success Message */}
-      {submitted && (
-        <div className="mb-6 p-4 bg-blue-50 border border-blue-300 rounded-lg flex items-start gap-3">
-          <FiCheckCircle className="w-5 h-5 text-blue-700 mt-0.5" />
-          <div>
-            <h4 className="font-semibold text-blue-900">
-              Submission Confirmed
-            </h4>
-            <p className="text-sm text-blue-800">
-              Your inquiry has been received. We will respond within one
-              business day.
-            </p>
-          </div>
-        </div>
-      )}
+    <form onSubmit={handleSubmit} className="space-y-6">
 
-      <form className="space-y-6" onSubmit={handleSubmit}>
-        {/* Name */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Name</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            placeholder="Your Name"
-            className="w-full border-0 border-b border-gray-400 bg-transparent py-2
-             focus:outline-none focus:border-blue-600
-             hover:border-blue-500 transition-colors duration-300"
-          />
-        </div>
-
-        {/* Email */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            placeholder="Email Address"
-            className="w-full border-0 border-b border-gray-400 bg-transparent py-2
-             focus:outline-none focus:border-blue-600
-             hover:border-blue-500 transition-colors duration-300"
-          />
-        </div>
-
-        {/* Mobile Number */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Mobile Number
-          </label>
-          <input
-            type="text"
-            name="mobile_number"
-            value={formData.mobile_number}
-            onChange={handleChange}
-            required
-            placeholder="Mobile Number"
-            className="w-full border-0 border-b border-gray-400 bg-transparent py-2
-             focus:outline-none focus:border-blue-600
-             hover:border-blue-500 transition-colors duration-300"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Subject
-          </label>
-        <input
-          type="text"
-          name="subject"
-          value={formData.subject}
-          onChange={handleChange}
-          required
-          placeholder="Subject"
-          className="w-full border-0 border-b border-gray-400 bg-transparent py-2
-             focus:outline-none focus:border-blue-600
-             hover:border-blue-500 transition-colors duration-300"
-        />
-        </div>
-
-        {/* Message */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Message</label>
-          <textarea
-            name="notes"
-            value={formData.notes}
-            onChange={handleChange}
-            required
-            rows="3"
-            placeholder="Your Message"
-            className="w-full border-0 border-b border-gray-400 bg-transparent py-2 resize-none
-             focus:outline-none focus:border-blue-600
-             hover:border-blue-500 transition-colors duration-300"
-          />
-        </div>
-        {/* reCaptcha */}
-        {/* reCAPTCHA */}
-      <ReCAPTCHA
-        sitekey="6Le-z0ssAAAAAG6qAHrWH2gRl8I4QZOro_fgrFAM"
-        size="invisible" // invisible or "normal" for checkbox
-        ref={recaptchaRef}
+      {/* Name */}
+      <input
+        type="text"
+        name="name"
+        placeholder="Your Name"
+        required
+        value={formData.name}
+        onChange={handleChange}
+        className="w-full border px-4 py-3 rounded"
       />
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="mt-6 px-6 py-3 bg-blue-600 text-white font-medium rounded
-             hover:bg-blue-700 transition"
-        >
-          {loading ? "Submitting..." : "Send Message"}
-        </button>
-      </form>
-    </div>
+      {/* Email */}
+      <input
+        type="email"
+        name="email"
+        placeholder="Your Email"
+        required
+        value={formData.email}
+        onChange={handleChange}
+        className="w-full border px-4 py-3 rounded"
+      />
+
+      {/* Mobile */}
+      <input
+        type="tel"
+        name="mobile_number"
+        placeholder="Mobile Number"
+        required
+        value={formData.mobile_number}
+        onChange={handleChange}
+        className="w-full border px-4 py-3 rounded"
+      />
+
+      {/* Message */}
+      <textarea
+        name="message"
+        placeholder="Your Message"
+        rows="4"
+        required
+        value={formData.message}
+        onChange={handleChange}
+        className="w-full border px-4 py-3 rounded"
+      />
+
+      {/* 🕵️ Honeypot Field (Hidden) */}
+      <input
+        type="text"
+        name="company"
+        tabIndex="-1"
+        autoComplete="off"
+        className="hidden"
+        onChange={handleChange}
+      />
+
+      {/* CAPTCHA */}
+      <div className="flex justify-center">
+        <ReCAPTCHA
+          sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+          onChange={() => setCaptchaVerified(true)}
+          onExpired={() => setCaptchaVerified(false)}
+        />
+      </div>
+
+      {/* Submit */}
+      <button
+        type="submit"
+        disabled={loading || !captchaVerified}
+        className="w-full bg-blue-600 text-white py-3 rounded
+                   hover:bg-blue-700 transition
+                   disabled:opacity-50"
+      >
+        {loading ? "Submitting..." : "Send Message"}
+      </button>
+
+    </form>
   );
 };
 
