@@ -4,7 +4,7 @@ import PageLayout from '../components/common/PageLayout';
 import { Link } from 'react-router-dom';
 import api from '../api/axios';
 
-const Blogs = () => {
+const Offers = () => {
   const [blogData, setBlogData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -64,4 +64,4 @@ const Blogs = () => {
   );
 }
 
-export default Blogs
+export default Offers

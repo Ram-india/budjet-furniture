@@ -2,8 +2,8 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import { useSettings } from "../../context/SettingsContext";
+import { IMAGE_BASE_URL } from "../../config/config";
 
-const LOGO_URL = "https://cuteweb.in/sandbox/budget/admin/uploads/settings/";
 
 export default function Navbar() {
   const {settings, loading} = useSettings();
@@ -15,7 +15,7 @@ export default function Navbar() {
     { name: "About", path: "/about" },
     { name: "Products", path: "/products" },
     { name: "Gallery", path: "/gallery" },
-    { name: "Offers", path: "/blog" },
+    { name: "Offers", path: "/offers" },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -27,7 +27,7 @@ export default function Navbar() {
           <NavLink to="/" className="text-2xl font-bold text-primary flex-shrink-0">
             {
               <img
-              src={`${LOGO_URL}${settings.logo}`}
+              src={settings.logo}
               alt={settings.name}
               className="h-12 sm:h-14 w-auto"
               />

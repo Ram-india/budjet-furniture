@@ -14,6 +14,7 @@ import Features from "../home/Features";
 import { useSettings } from "../../context/SettingsContext";
 import ContactItem from "../common/ContactItem";
 import EmailSubscribe from "./EmailSubscribe";
+import BrandSlider from "../sliders/BrandSlider";
 
 export default function Footer() {
   const { settings } = useSettings();
@@ -28,6 +29,8 @@ export default function Footer() {
     <footer className="bg-white border-t border-theme">
       {/* FEATURES */}
       <Features />
+
+      {/* <BrandSlider/> */}
 
       <EmailSubscribe/>
 
@@ -167,7 +170,7 @@ function FooterCol({ title, items }) {
     "About": "/about",
     "Products": "/products",
     "Gallery": "/gallery",
-    "Blog": "/blog",
+    "Offers": "/offers",
     "Contact": "/contact"
   };
 

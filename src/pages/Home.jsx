@@ -9,12 +9,13 @@ import TopBar from '../components/common/TopBar'
 import FeaturedBanners from '../components/home/FeaturedBanners'
 import FeaturedProducts from '../components/common/FeatureProducts'
 import HomeAbout from '../components/common/HomeAbout'
+import HomeSlider from '../components/home/HomeSlider'
 
 const Home = () => {
   return (
     <>
-  
-    <Hero/>
+    <HomeSlider/>
+    {/* <Hero/> */}
     <HomeAbout/>
     <FeaturedProducts/>
     <Testimonials/>

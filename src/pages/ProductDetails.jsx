@@ -45,7 +45,7 @@ export default function ProductDetails() {
         const galleryRes = await getProductGallery(productId);
         setGallery(galleryRes.data || []);
     
-        console.log(galleryRes.data);
+        
        
         window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (err) {

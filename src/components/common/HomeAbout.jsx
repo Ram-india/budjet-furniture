@@ -44,9 +44,7 @@ export default function HomeAbout() {
         {/* LEFT IMAGE */}
         <div className="relative">
           <img
-            src={page.image
-              ? ` https://cuteweb.in/sandbox/budget/admin/uploads/pages/${page.image}`
-              : "/no-image.jpg"}
+            src={page.image}
             alt={page.title}
             className="relative z-10 rounded-2xl"
           />

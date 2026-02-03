@@ -10,7 +10,7 @@ import { ProductProvider } from "./context/ProductContext";
 
 createRoot(document.getElementById("root")).render(
  
-    <BrowserRouter>
+    <BrowserRouter basename="/demo">
       <SettingsProvider>
         <ProductProvider>
           <App />
