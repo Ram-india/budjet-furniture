@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import { useState, lazy, Suspense } from "react";
+import { FiUser, FiMail, FiPhone, FiMessageSquare } from "react-icons/fi";
 import { submitContactForm } from "../../api/contactApi";
 
 const ContactForm = () => {
@@ -7,45 +7,36 @@ const ContactForm = () => {
     name: "",
     email: "",
     mobile_number: "",
-    message: "",
-    company: "", // honeypot
+    subject: "",
+    notes: "",
   });
 
-  const [captchaVerified, setCaptchaVerified] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Honeypot check (frontend-only anti-bot)
-    if (formData.company) return;
-
-    if (!captchaVerified) {
-      alert("Please verify you are not a robot");
-      return;
-    }
-
     setLoading(true);
+    setError("");
 
     try {
-      await submitContactForm({
-        name: formData.name,
-        email: formData.email,
-        mobile_number: formData.mobile_number,
-        message: formData.message,
-      });
-
+      await submitContactForm(formData);
       setSubmitted(true);
-    } catch (error) {
-      alert("Something went wrong. Please try again.");
+      setFormData({
+        name: "",
+        email: "",
+        mobile_number: "",
+        subject: "",
+        notes: "",
+      });
+    } catch (err) {
+      console.error(err.response?.data || err.message);
+      setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -53,93 +44,122 @@ const ContactForm = () => {
 
   if (submitted) {
     return (
-      <div className="text-center py-10">
-        <h3 className="text-2xl font-semibold text-green-600">
-          Thank you! We’ll contact you soon.
+      <div className="bg-green-50 border border-green-200 rounded-2xl p-10 text-center animate-fadeIn">
+        <h3 className="text-2xl font-semibold text-green-700 mb-2">
+          Thank you for contacting us
         </h3>
+        <p className="text-sm text-green-600">
+          Our team will reach out to you shortly.
+        </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-
-      {/* Name */}
-      <input
-        type="text"
-        name="name"
-        placeholder="Your Name"
-        required
-        value={formData.name}
-        onChange={handleChange}
-        className="w-full border px-4 py-3 rounded"
-      />
-
-      {/* Email */}
-      <input
-        type="email"
-        name="email"
-        placeholder="Your Email"
-        required
-        value={formData.email}
-        onChange={handleChange}
-        className="w-full border px-4 py-3 rounded"
-      />
-
-      {/* Mobile */}
-      <input
-        type="tel"
-        name="mobile_number"
-        placeholder="Mobile Number"
-        required
-        value={formData.mobile_number}
-        onChange={handleChange}
-        className="w-full border px-4 py-3 rounded"
-      />
-
-      {/* Message */}
-      <textarea
-        name="message"
-        placeholder="Your Message"
-        rows="4"
-        required
-        value={formData.message}
-        onChange={handleChange}
-        className="w-full border px-4 py-3 rounded"
-      />
-
-      {/* 🕵️ Honeypot Field (Hidden) */}
-      <input
-        type="text"
-        name="company"
-        tabIndex="-1"
-        autoComplete="off"
-        className="hidden"
-        onChange={handleChange}
-      />
-
-      {/* CAPTCHA */}
-      <div className="flex justify-center">
-        <ReCAPTCHA
-          sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-          onChange={() => setCaptchaVerified(true)}
-          onExpired={() => setCaptchaVerified(false)}
-        />
+    <div className="bg-white border border-gray-200 rounded-2xl shadow-xl p-8 sm:p-10">
+      {/* Header */}
+      <div className="mb-8">
+        <h3 className="text-2xl font-semibold text-gray-900">
+          Send Us a Message
+        </h3>
+        <p className="text-sm text-gray-500 mt-1">
+          Fill out the form and our team will get back to you.
+        </p>
       </div>
 
-      {/* Submit */}
-      <button
-        type="submit"
-        disabled={loading || !captchaVerified}
-        className="w-full bg-blue-600 text-white py-3 rounded
-                   hover:bg-blue-700 transition
-                   disabled:opacity-50"
-      >
-        {loading ? "Submitting..." : "Send Message"}
-      </button>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Name */}
+        <Input
+          icon={<FiUser />}
+          name="name"
+          placeholder="Full Name"
+          value={formData.name}
+          onChange={handleChange}
+        />
 
-    </form>
+        {/* Email */}
+        <Input
+          icon={<FiMail />}
+          type="email"
+          name="email"
+          placeholder="Email Address"
+          value={formData.email}
+          onChange={handleChange}
+        />
+
+        {/* Mobile */}
+        <Input
+          icon={<FiPhone />}
+          type="tel"
+          name="mobile_number"
+          placeholder="Mobile Number"
+          value={formData.mobile_number}
+          onChange={handleChange}
+        />
+
+         {/* Subject */}
+        <Input
+          icon={<FiMessageSquare />}
+          name="subject"
+          placeholder="Subject"
+          value={formData.subject}
+          onChange={handleChange}
+        />
+
+        {/* Message */}
+        <Textarea
+          icon={<FiMessageSquare />}
+          name="notes"
+          placeholder="Your Message"
+          value={formData.notes}
+          onChange={handleChange}
+        />
+
+        {/* Error */}
+        {error && <p className="text-sm text-red-600 text-center">{error}</p>}
+
+        {/* Submit */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full py-3 rounded-xl font-semibold text-white
+            bg-gray-900 hover:bg-black transition
+            disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {loading ? "Sending..." : "Send Message"}
+        </button>
+      </form>
+    </div>
   );
 };
 
 export default ContactForm;
+
+/* ---------- Small UI Components ---------- */
+
+const Input = ({ icon, ...props }) => (
+  <div className="relative">
+    <span className="absolute left-4 top-4 text-gray-400">{icon}</span>
+    <input
+      required
+      {...props}
+      className="w-full pl-12 pr-4 py-3 border rounded-xl
+        focus:ring-2 focus:ring-gray-900 focus:border-gray-900
+        transition"
+    />
+  </div>
+);
+
+const Textarea = ({ icon, ...props }) => (
+  <div className="relative">
+    <span className="absolute left-4 top-4 text-gray-400">{icon}</span>
+    <textarea
+      required
+      rows="4"
+      {...props}
+      className="w-full pl-12 pr-4 py-3 border rounded-xl resize-none
+        focus:ring-2 focus:ring-gray-900 focus:border-gray-900
+        transition"
+    />
+  </div>
+);

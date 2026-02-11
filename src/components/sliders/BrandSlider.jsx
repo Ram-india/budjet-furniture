@@ -1,7 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { useEffect, useState } from "react";
-
 import "swiper/css";
 
 import api from "../../api/axios";
@@ -12,16 +11,19 @@ const BrandSlider = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api
-      .get("/getBrands")
-      .then((res) => {
+    const fetchBrands = async () => {
+      try {
+        const res = await api.get("/getBrands");
+        
         setBrands(res.data || []);
+      } catch (error) {
+        console.error("Brand API Error:", error);
+      } finally {
         setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Brand API Error:", err);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchBrands();
   }, []);
 
   if (loading) return <BrandSliderSkeleton />;
@@ -31,54 +33,60 @@ const BrandSlider = () => {
     <section className="bg-gray-50 py-14">
       <div className="max-w-7xl mx-auto px-4">
 
-        {/* Title */}
-        <div className="mb-10 text-center">
+        <div className="mb-20 text-center">
           <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">
             Our Trusted Brands
           </h2>
           <p className="text-sm text-gray-500 mt-1">
-            Partnering with quality manufacturers
+            Partnering with industry-leading manufacturers
           </p>
         </div>
 
-        <Swiper
-          modules={[Autoplay]}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
-          speed={800}
-          loop
-          spaceBetween={40}
-          slidesPerView={2}
-          breakpoints={{
-            640: { slidesPerView: 3 },
-            768: { slidesPerView: 4 },
-            1024: { slidesPerView: 5 },
-            1280: { slidesPerView: 6 },
-          }}
-        >
-          {brands.map((brand) => (
-            <SwiperSlide key={brand.brand_id}>
-              <div className="flex items-center justify-center h-24">
-                <img
-                  src={brand.logoURL}
-                  alt={brand.name}
-                  loading="lazy"
-                  className="
-                    max-h-14
-                    object-contain
-                    opacity-70
-                    hover:opacity-100
-                    transition
-                    duration-300
-                  "
-                />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {/* IMPORTANT FIX */}
+        <div className="relative w-full min-w-0 mb-8">
+          <Swiper
+            className="!w-full "
+            modules={[Autoplay]}
+            autoplay={{
+              delay: 2200,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            speed={900}
+            spaceBetween={40}
+            slidesPerView={2}
+            loop={brands.length > 6}
+            breakpoints={{
+        
+              640: { slidesPerView: 2 },
+              768: { slidesPerView: 3 },
+              1024: { slidesPerView: 4 },
+              1280: { slidesPerView: 4 },
+            }}
+          >
+            {brands.map((brand) => (
+              <SwiperSlide key={brand.id}>
+                <div className="flex items-center justify-center h-24">
+                  <img
+                    src={brand.hdImage}
+                    alt={brand.title}
+                    className="
+                      max-h-24
+                      object-contain
+                     
+                      opacity-90
+                      transition-all
+                      duration-300
+                      hover:grayscale-3
+                      hover:opacity-100
+                      hover:scale-205
+                    "
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
 
       </div>
     </section>

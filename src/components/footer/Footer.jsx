@@ -28,9 +28,9 @@ export default function Footer() {
   return (
     <footer className="bg-white border-t border-theme">
       {/* FEATURES */}
+      <BrandSlider/> 
       <Features />
 
-      {/* <BrandSlider/> */}
 
       <EmailSubscribe/>
 
@@ -38,6 +38,17 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 grid gap-12 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 py-12 sm:py-16">
         {/* Column 1: About Us */}
         <div>
+          {/* LOGO */}
+          <NavLink to="/" className="text-2xl font-bold text-primary flex-shrink-0  ">
+          {settings?.logo && (
+              <img
+              src={settings.logo}
+              alt={settings.name || "Company Logo"}
+              loading="lazy"
+              className="h-12 sm:h-14 w-auto object-contain pb-5"
+            />
+            )}
+          </NavLink>
           <h4 className="font-bold text-base sm:text-lg md:text-xl text-primary mb-4">
             About Us
           </h4>
@@ -56,7 +67,7 @@ export default function Footer() {
         {/* Column 2: Pages */}
         <FooterCol
           title="Pages"
-          items={["Home", "About", "Products", "Gallery", "Blog", "Contact"]}
+          items={["Home", "About", "Products", "Gallery", "Offers", "Contact"]}
         />
 
         {/* Column 3: Contact Info */}

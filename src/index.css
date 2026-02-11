@@ -66,24 +66,48 @@ html {
   }
  
 }
-@keyframes fadeSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+
+
+
+
+.swiper-slide-active,
+.swiper-slide-next,
+.swiper-slide-prev {
+ 
+  color: transparent
+}
+/* Shared arrow styles */
+.swiper-button-next,
+.swiper-button-prev {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(6px);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.3s ease;
 }
 
-.animate-fade-slide {
-  animation: fadeSlideUp 0.8s ease-out both;
+/* Hover */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
 }
-/* Hide arrows on mobile */
-@media (max-width: 640px) {
-  .swiper-button-prev,
-  .swiper-button-next {
-    display: none !important;
-  }
+
+/* Arrow icons */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff000;
+}
+
+/* Positioning */
+.swiper-button-prev {
+  left: 24px;
+}
+
+.swiper-button-next {
+  right: 24px;
 }

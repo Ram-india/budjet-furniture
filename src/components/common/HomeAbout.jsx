@@ -80,7 +80,7 @@ export default function HomeAbout() {
           {/* CTA */}
           <NavLink
             to="/about"
-            className="group inline-flex items-center gap-2 px-6 py-3 bg-themeSecondary text-gray-800 font-medium rounded-full hover:bg-themeSecondaryDark transition"
+            className="group inline-flex items-center gap-2  py-3 bg-themeSecondary text-gray-800 font-medium rounded-full hover:bg-themeSecondaryDark transition"
           >
             Read our full story
             <FiArrowRight className="group-hover:translate-x-1 transition" />

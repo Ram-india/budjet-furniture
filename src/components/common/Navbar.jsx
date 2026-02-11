@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import { useSettings } from "../../context/SettingsContext";
-import { IMAGE_BASE_URL } from "../../config/config";
+
 
 
 export default function Navbar() {

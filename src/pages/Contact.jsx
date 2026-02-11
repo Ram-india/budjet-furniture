@@ -1,99 +1,132 @@
-import { FiPhone, FiMail, FiMapPin, FiClock, FiCheckCircle, FiChevronDown } from "react-icons/fi";
-import PageHeader from "../components/common/PageHeader";
-import PageLayout from "../components/common/PageLayout";
-import { useState } from "react";
-import { useSettings } from "../context/SettingsContext";
+import { useEffect, useState } from "react";
+import { FiMapPin, FiPhone, FiMail } from "react-icons/fi";
 import ContactForm from "../components/contact/ContactFrom";
-
+import PageHeader from "../components/common/PageHeader";
+import { getSettings } from "../api/settingsApi";
 
 export default function Contact() {
-    const { settings } = useSettings();
+  const [branches, setBranches] = useState([]);
 
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    try {
+      const res = await getSettings();
+      const s = res.data;
+
+      const data = [
+        {
+          id: 1,
+          title: "Head Office",
+          address: s.address,
+          phone: s.mobile,
+          email: s.email,
+          map: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d246.03688949711585!2d78.8302085!3d9.3694806!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b01a2a9fc37b9d5%3A0x87c8ce7ffa03365a!2sBudget%20Furnitures!5e0!3m2!1sen!2sin!4v1770792223063!5m2!1sen!2sin",
+          
+        },
+        {
+          id: 2,
+          title: s.one_label || "Branch Office",
+          address: s.one_address,
+          phone: s.one_mobile,
+          email: s.email,
+          map: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d125922.47767685373!2d78.7928317!3d9.5019953!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b01b3c69e2d405d%3A0x9e675efb9d7c5fa!2sBudget%20Furniture!5e0!3m2!1sen!2sin!4v1770797034149!5m2!1sen!2sin",
+          
+        },
+      ].filter(b => b.address);
+
+      setBranches(data);
+    } catch (err) {
+      console.error("Failed to load contact data", err);
+    }
+  };
 
   return (
-    <section className="bg-white">
-      {/* HEADER */}
+    <section className="bg-gray-50">
       <PageHeader
         title="Contact Us"
-        subtitle="Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible."
+        subtitle="Reach out to us — we’d love to hear from you"
       />
 
-      {/* INTRO SECTION */}
-      <PageLayout className="py-16 sm:py-20">
-        <div className="text-center max-w-3xl mx-auto">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">Contact Information</h1>
-          <p className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed font-light">
-            For inquiries regarding our products and services, please contact us using any of the methods below. We maintain professional correspondence standards and will address your inquiry in a timely manner.
-          </p>
+      {/* ADDRESS + FORM */}
+      <div className="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-14">
+
+        {/* LEFT – ADDRESSES */}
+        <div className="space-y-8">
+          {branches.map(branch => (
+            <AddressCard key={branch.id} branch={branch} />
+          ))}
         </div>
-      </PageLayout>
 
-      {/* CONTENT */}
-      <PageLayout className="pb-20">
-        <div className="grid gap-12 lg:grid-cols-2">
-          {/* LEFT: CONTACT INFO */}
-          <div className="space-y-6">
-            {/* Address Card */}
-            <div className="bg-white rounded-lg p-6 sm:p-8 border border-gray-300 shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
-                  <FiMapPin className="w-6 h-6 sm:w-7 sm:h-7 text-gray-800 mt-1" />
-                </div>
-                <div className="flex-1">
-                  <h4 className="font-bold text-base sm:text-lg text-gray-900 mb-3">Registered Office</h4>
-                  <p className="text-sm sm:text-base text-gray-700 leading-relaxed font-light">
-                    {settings?.address}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Phone Card */}
-            <div className="bg-white rounded-lg p-6 sm:p-8 border border-gray-300 shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
-                  <FiPhone className="w-6 h-6 sm:w-7 sm:h-7 text-gray-800 mt-1" />
-                </div>
-                <div className="flex-1">
-                  <h4 className="font-bold text-base sm:text-lg text-gray-900 mb-3">Telephone</h4>
-                  <p className="text-sm sm:text-base text-gray-900 font-semibold">{settings?.mobile}</p>
-                  <p className="text-xs sm:text-sm text-gray-600 mt-2 font-light">Monday through Saturday, 10:00 AM to 6:00 PM (IST)</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Email Card */}
-            <div className="bg-white rounded-lg p-6 sm:p-8 border border-gray-300 shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
-                  <FiMail className="w-6 h-6 sm:w-7 sm:h-7 text-gray-800 mt-1" />
-                </div>
-                <div className="flex-1">
-                  <h4 className="font-bold text-base sm:text-lg text-gray-900 mb-3">Electronic Mail</h4>
-                  <p className="text-sm sm:text-base text-gray-900 font-semibold break-all">{settings?.email}</p>
-                  <p className="text-xs sm:text-sm text-gray-600 mt-2 font-light">Response time: Within 24 business hours</p>
-                </div>
-              </div>
-            </div>
-
-            {/* MAP */}
-            <div className="w-full h-64 sm:h-72 rounded-2xl overflow-hidden border-2 border-gray-200 shadow-md">
-              <iframe
-                title="map"
-                className="w-full h-full"
-                loading="lazy"
-                src="https://www.google.com/maps?q=Ramanathapuram&output=embed"
-              />
-            </div>
-          </div>
-
-          {/* RIGHT: CONTACT FORM */}
-          <ContactForm/>
+        {/* RIGHT – FORM */}
+        <div >
           
+          <ContactForm />
         </div>
-      </PageLayout>
+      </div>
 
-      
+      {/* MAPS SECTION */}
+     {/* MAPS – SINGLE ROW */}
+<div className="max-w-7xl mx-auto px-6 pb-20">
+  <h3 className="text-2xl font-semibold mb-8 text-center">
+    Our Locations
+  </h3>
+
+  <div className="grid md:grid-cols-2 gap-8">
+    {branches.map(branch => (
+      <div
+        key={branch.id}
+        className="rounded-2xl overflow-hidden shadow-lg border bg-white"
+      >
+        <div className="px-6 py-4 border-b font-semibold text-gray-900">
+          {branch.title}
+        </div>
+
+        <iframe src={branch.map}
+          title={branch.title}
+          className="w-full h-[360px]"
+          loading="lazy"
+        />
+      </div>
+    ))}
+  </div>
+</div>
     </section>
+  );
+}
+
+/* ---------------- COMPONENTS ---------------- */
+
+function AddressCard({ branch }) {
+  return (
+    <div className="bg-white rounded-2xl shadow-md p-8">
+      <h3 className="text-xl font-semibold mb-6">{branch.title}</h3>
+
+      <div className="space-y-5">
+        <InfoRow icon={<FiMapPin />} label="Address" value={branch.address} />
+        {branch.phone && (
+          <InfoRow icon={<FiPhone />} label="Phone" value={branch.phone} />
+        )}
+        {branch.email && (
+          <InfoRow icon={<FiMail />} label="Email" value={branch.email} />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function InfoRow({ icon, label, value }) {
+  return (
+    <div className="flex gap-4">
+      <div className="h-12 w-12 rounded-xl bg-gray-100 flex items-center justify-center text-lg">
+        {icon}
+      </div>
+      <div>
+        <p className="font-medium text-gray-900">{label}</p>
+        <p className="text-sm text-gray-600 mt-1">{value}</p>
+      </div>
+    </div>
   );
 }

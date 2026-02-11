@@ -38,7 +38,7 @@ const Offers = () => {
               const blogId = blog.id || blog.blog_id;
               return (
                 <Link
-                  to={`/blog/${blog.slug}?id=${blogId}`}
+                  to={`/offers/${blog.slug}?id=${blogId}`}
                   key={blogId}
                   className="group"
                 >

@@ -167,7 +167,7 @@ export default function BlogDetail() {
               <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow border border-gray-200">
                 <h4 className="font-bold text-lg sm:text-xl text-primary mb-6 flex items-center gap-2">
                   <span className="w-1 h-6 bg-primary rounded"></span>
-                  Recent Blogs
+                  Recent Offers
                 </h4>
                 <ul className="space-y-4">
                   {recentBlogs.map((b) => {
