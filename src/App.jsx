@@ -28,19 +28,22 @@ const PageLoader = () => (
 );
 
 function App() {
-  useEffect(() =>{
-    if(window.Tawk_API) return; // Prevent multiple script injections
+  useEffect(() => {
+  if (document.getElementById("tawk-script")) return;
 
-    window.Tawk_API = window.Tawk_API || {};
-    window.Tawk_LoadStart = new Date();
+  window.Tawk_API = window.Tawk_API || {};
+  window.Tawk_LoadStart = new Date();
 
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = "https://embed.tawk.to/698aba697aab411c372a40ae/1jh2ugbp5";
-    script.setAttribute('crossorigin', '*');
+  const script = document.createElement("script");
+  script.id = "tawk-script";
+  script.src = "https://embed.tawk.to/698aba697aab411c372a40ae/1jh2ugbp5";
+  script.async = true;
+  script.charset = "UTF-8";
+  script.setAttribute("crossorigin", "*");
 
-    document.body.appendChild(script);
-  },[]);
+  document.body.appendChild(script);
+}, []);
+
   return (
     <>
       <TopBar />
